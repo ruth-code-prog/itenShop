@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "552022496169",
+    "firebase_url": "https://itenshop-eb709-default-rtdb.firebaseio.com",
+    "project_id": "itenshop-eb709",
+    "storage_bucket": "itenshop-eb709.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552022496169:android:e01fa3afd5281f0346eab8",
+        "android_client_info": {
+          "package_name": "com.itenshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552022496169-bvngjr57pn7khc2mfh83b2pspvrovtq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzU6GOgEiCiebGbvT_u1CBRimyaNYCPas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552022496169-bvngjr57pn7khc2mfh83b2pspvrovtq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
