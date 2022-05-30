@@ -6,6 +6,7 @@ import {Jarak} from '../../components';
 import {connect} from 'react-redux';
 import {getListJersey} from '../../actions/JerseyAction';
 import {getListLiga} from '../../actions/LigaAction';
+import Headline from '../Headline';
 
 class ListJersey extends Component {
   componentDidMount() {
@@ -45,6 +46,7 @@ class ListJersey extends Component {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <ListLiga navigation={navigation} />
             </ScrollView>
+            <Headline />
           </View>
 
           <View style={styles.pilihJersey}>
@@ -92,7 +94,6 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
-    fontFamily: fonts.primary.regular,
     color:"#FFFFFF",
   },
   boldLabel: {

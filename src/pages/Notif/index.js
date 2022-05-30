@@ -37,7 +37,7 @@
            onPress={() => {
              this.notif.localNotif();
            }}>
-           <Text style={styles.notif}>Iten Shop Local Notification (now)</Text>
+           <Text style={styles.notif}></Text>
          </TouchableOpacity>
 
          <View style={styles.spacer}></View>
@@ -77,16 +77,16 @@
    },
    button: {
      borderWidth: 1,
-     borderColor: '#000000',
+     borderColor: '#2772E7',
      margin: 5,
      padding: 5,
      width: '100%',
-     backgroundColor: '#22668A',
+     backgroundColor: '#2772E7',
      borderRadius: 5,
    },
    textField: {
      borderWidth: 1,
-     borderColor: '#AAAAAA',
+     borderColor: '#2772E7',
      margin: 5,
      padding: 5,
      width: '70%',

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Image} from 'react-native';
 import {Ilustrasi, Logo} from '../../assets';
 import FIREBASE from '../../config/FIREBASE';
 import {getData, storeData} from '../../utils';
@@ -32,7 +32,13 @@ export default class Splash extends Component {
     return (
       <View style={styles.pages}>
         <Logo />
+        <Text style={styles.title}>Easy Way to Make Your Life Better</Text>
+        <View style={styles.notifSplash}>
         <NotifSplash />
+        <Image source={require('../../assets/images/Mohes.png')}
+              style={{width: 140, height: 140}}
+              resizeMode={'contain'} />
+        </View>
       </View>
     );
   }
@@ -49,5 +55,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
+  },
+  title: {
+    fontWeight: "bold",
+    color: "#6D3492",
+    textAlign: "center",
   },
 });

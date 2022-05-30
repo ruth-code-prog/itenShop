@@ -10,7 +10,14 @@ import ListHistory from './ListHistory';
 import PopupPoint from './PopupPoint';
 import VideoPlayer from './VideoPlayer';
 import HeadlineItem from './HeadlineItem';
-import CardMultiFungsiItem from './CardMultiFungsiItem'
+import CardMultiFungsiItem from './CardMultiFungsiItem';
+import ModalPassword from './ModalPassword';
+import HomeProfile from './HomeProfile';
+import Loading from './Loading';
+import ProdukCard from './ProdukCard';
+import ModalDrug from './ModalDrug';
+import ModalAddPenunjang from './ModalAddPenunjang';
+import ModalPenunjang from './ModalPenunjang';
 
 export {
   BottomNavigator,
@@ -25,5 +32,12 @@ export {
   PopupPoint,
   VideoPlayer,
   HeadlineItem,
-  CardMultiFungsiItem
+  CardMultiFungsiItem,
+  ModalPassword,
+  HomeProfile,
+  Loading,
+  ProdukCard,
+  ModalDrug,
+  ModalPenunjang,
+  ModalAddPenunjang
 };

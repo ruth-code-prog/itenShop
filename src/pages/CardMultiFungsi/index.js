@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 28,
     padding: 0,
-    marginBottom: 20,
+    marginBottom: 4,
   },
   textChat: {
     fontSize: 12,

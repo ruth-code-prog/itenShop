@@ -16,4 +16,4 @@ export const colors = {
     green2: '#34D5B5',
     orange: '#F5831F',
     ungu: '#6D3492'
-}
+};

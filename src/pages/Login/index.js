@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Alert, StyleSheet, Text, View, Button} from 'react-native';
 import {Ilustrasi, Logo} from '../../assets';
-import {Inputan, Jarak, Tombol} from '../../components';
+import {Input, Jarak, Tombol} from '../../components';
 import {colors, fonts, responsiveHeight} from '../../utils';
 import {loginUser} from '../../actions/AuthAction';
 import {connect} from 'react-redux';
@@ -46,20 +46,22 @@ class Login extends Component {
           <Logo />
         </View>
         <View style={styles.cardLogin}>
-          <Inputan
+          <Input
             label="Email"
+            placeholder="Masukkan Email"
             value={email}
             onChangeText={(email) => this.setState({email})}
           />
-          <Inputan
+          <Input
             label="Password"
+            placeholder="Masukkan password"
             secureTextEntry
             value={password}
             onChangeText={(password) => this.setState({password})}
           />
           <Jarak height={25} />
           <Tombol
-            title="Login"
+            title="Masuk"
             type="text"
             padding={12}
             fontSize={18}

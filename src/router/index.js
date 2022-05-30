@@ -1,7 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Home, Splash, ListJersey, Profile, JerseyDetail, Keranjang, Checkout, EditProfile, ChangePassword, History, Login, Register1, Register2, Midtrans} from '../pages';
+import {Home, Splash, AllVideo, DrugBerbayar, Info, ListJersey, Profile, JerseyDetail, Keranjang, Checkout, EditProfile, ChangePassword, History, Login, Register1, Register2, PenunjangUser, Midtrans} from '../pages';
 import {BottomNavigator} from '../components';
 
 const Stack = createNativeStackNavigator();
@@ -14,7 +14,7 @@ const MainApp = () => {
       <Tab.Screen
         name="ListJersey"
         component={ListJersey}
-        options={{title: 'Barang', headerShown: false }}
+        options={{title: 'Explore', headerShown: false }}
       />
       <Tab.Screen name="Profile" component={Profile} options={{headerShown: false}} />
     </Tab.Navigator>
@@ -32,6 +32,21 @@ const Router = () => {
       <Stack.Screen
         name="MainApp"
         component={MainApp}
+        options={{headerShown: false}}
+      />
+       <Stack.Screen
+        name="AllVideo"
+        component={AllVideo}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DrugBerbayar"
+        component={DrugBerbayar}
+        options={{headerShown: false}}
+      />
+       <Stack.Screen
+        name="Info"
+        component={Info}
         options={{headerShown: false}}
       />
        <Stack.Screen
@@ -81,6 +96,11 @@ const Router = () => {
         name="Midtrans"
         component={Midtrans}
         options={{title: "Lanjutkan Pembayaran"}}
+      />
+      <Stack.Screen
+        name="PenunjangUser"
+        component={PenunjangUser}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

@@ -150,14 +150,13 @@ class Checkout extends Component {
           {/* Total Harga  */}
           <View style={styles.totalHarga}>
             <Text style={styles.textBold}>Total Harga :</Text>
-            <Text style={styles.textBold}>
+            <Text selectable={true} style={styles.textBold}>
               Rp. {numberWithCommas(totalHarga + ongkir)}
             </Text>
           </View>
-
-          {/* Tombol  */}
+          <Jarak height={4} />
           <Tombol
-            title="Bayar Via (M-Banking)"
+            title="Bayar Via (Midtrans)"
             type="textIcon"
             fontSize={18}
             padding={responsiveHeight(15)}
@@ -165,10 +164,6 @@ class Checkout extends Component {
             onPress={() => this.Bayar()}
             loading={snapTransactionsLoading}
           />
-
-          <Jarak height={20} />
-          <Text style={styles.textQRIS}>Bayar Via (QRIS)</Text>
-          <Jarak height={8} />
           <Qris />
         </View>
         </ScrollView>
@@ -194,7 +189,7 @@ const styles = StyleSheet.create({
   pages: {
     flex: 1,
     backgroundColor: colors.biru,
-    paddingTop: 30,
+    paddingTop: 16,
     justifyContent: 'space-between',
   },
   isi: {

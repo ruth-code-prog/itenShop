@@ -16,7 +16,7 @@ const TabItem = ({isFocused, onLongPress, onPress, label}) => {
       return isFocused ? <IconHomeAktif /> : <IconHome />;
     }
 
-    if (label === 'Barang') {
+    if (label === 'Explore') {
       return isFocused ? <IconJerseyAktif /> : <IconJersey />;
     }
 

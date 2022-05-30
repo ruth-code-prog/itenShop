@@ -12,12 +12,12 @@ export default function HeadlineItem({onPress, image}) {
 
 const styles = StyleSheet.create({
     container: {
-      marginTop: 8,
-        marginRight: 12,
+      marginTop: 4,
+        marginRight: 8,
         flexDirection: 'row',
         borderRadius: 10,
         marginBottom: 2,
-        height: Dimensions.get('screen').height / 5,
+        height: Dimensions.get('screen').height / 5.1,
       },
       image: {
         width: Dimensions.get('screen').width - 250,

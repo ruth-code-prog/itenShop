@@ -7,23 +7,33 @@ import {StyleSheet,
   FlatList,
   TouchableOpacity,
   Image,
-  ActivityIndicator,} from 'react-native';
+  RefreshControl,
+  ActivityIndicator
+  } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import { Jarak } from '../../components';
+import { Jarak, Loading } from '../../components';
 import FIREBASE from '../../config/FIREBASE';
 import {colors, fonts, getData} from '../../utils';
 
 const Info = () => {
+  const [refreshing, setRefreshing] = React.useState(false);
   const [data, setData] = useState([]);
   const [modalImage, setModalImage] = useState(false);
   const [loading, setLoading] = useState(true);
   const [indexActive, setIndexActive] = useState(0);
+
+  const closeModal = () => {
+    if (modalImage) {
+      setModalImage(false)
+    }
+  }
 
   const getNotifImage = () => {
     FIREBASE.database()
       .ref('info')
       .once('value')
       .then(snapshot => {
+        setRefreshing(true);
         const dataSnapshot = snapshot.val() || {};
         let arr = [];
 
@@ -34,6 +44,8 @@ const Info = () => {
             subtitle: val[1]?.subtitle,
             id: val[0],
           });
+          setRefreshing(true);
+          wait(3000).then(() => setRefreshing(false));
         });
 
         setData(arr);
@@ -45,27 +57,26 @@ const Info = () => {
       });
   };
 
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+
   useEffect(() => {
     getNotifImage();
   }, []);
 
   return (
     <View style={styles.page}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Jarak height={30} />
+          <Jarak height={10} />
         <Text style={styles.title}>
           More Information
         </Text>
-        <Text style={styles.subtitle}>
-          Warning!
-        </Text>
-        <Text style={styles.subtitle}>
-          "Zoom In: Click Image",
-        </Text>
-        <Text style={styles.subtitle}>"Zoom Out: Swipe Down Image"</Text>
         <Jarak height={20} />
         <FlatList
           data={data}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={getNotifImage} />
+          }
           keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{paddingHorizontal: 20}}
           ItemSeparatorComponent={() => <Jarak height={20} />}
@@ -85,19 +96,18 @@ const Info = () => {
                 />
               </TouchableOpacity>
               <Text style={styles.keteranganGambar}>{item?.title}</Text>
-              <Text style={styles.keteranganGambar}>{item?.subtitle}</Text>
+              <Text style={styles.subtitleGambar}>{item?.subtitle}</Text>
             </View>
           )}
           ListEmptyComponent={() =>
             loading ? (
               <View style={{alignItems: 'center'}}>
-                <ActivityIndicator size={40} color={colors.white2} />
+                {refreshing ? <ActivityIndicator /> : null}
               </View>
             ) : null
           }
         />
-      </ScrollView>
-      <Modal visible={modalImage} transparent>
+      <Modal visible={modalImage} transparent onRequestClose={closeModal}>
         <ImageViewer
           index={indexActive}
           enableSwipeDown
@@ -105,6 +115,7 @@ const Info = () => {
           imageUrls={data}
         />
       </Modal>
+      
     </View>
   );
 };
@@ -116,21 +127,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.biru,
   },
-  header: {
-    paddingHorizontal: 12,
-    //paddingTop: 8,
-    marginBottom: 100,
-  },
   title: {
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: 'bold',
     marginTop: 10,
     color: '#FBFCFC',
     paddingLeft: 10,
     textAlign: 'center',
+    textDecorationLine: 'underline',
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: 'bold',
     marginTop: 10,
     color: '#FBFCFC',
@@ -149,15 +156,23 @@ const styles = StyleSheet.create({
     color: '#FBFCFC',
   },
   image: {
-    height: 200,
-    width: 200,
-    borderRadius: 20,
+    height: 280,
+    width: 280,
   },
   keteranganGambar: {
-    fontSize: 12,
+    fontSize: 20,
     fontWeight: 'bold',
     marginTop: 4,
     color: '#FBFCFC',
     textAlign: 'center',
+    textDecorationLine: 'underline',
+  },
+  subtitleGambar: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 4,
+    color: '#FBFCFC',
+    textAlign: 'center',
+    fontStyle: 'italic',
   }
 });

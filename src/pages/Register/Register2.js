@@ -97,7 +97,7 @@ class Register2 extends Component {
 
               <Jarak height={25} />
               <Tombol
-                title="Continue"
+                title="Lanjut"
                 type="textIcon"
                 icon="submit"
                 padding={10}

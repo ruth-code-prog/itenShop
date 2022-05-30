@@ -39,6 +39,7 @@ const Inputan = ({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         onChangeText={onChangeText}
+        selectionColor="white"
         editable={disabled ? false : true}
       />
     </View>

@@ -6,6 +6,7 @@ import TextIcon from './TextIcon'
 import TextOnly from './TextOnly'
 import TextOnly2 from './TextOnly2'
 import TextOnly3 from './TextOnly3'
+import TextOnly4 from './TextOnly4'
 import TombolLoading from './TombolLoading'
 
 const Tombol = (props) => {
@@ -22,7 +23,7 @@ const Tombol = (props) => {
         return <IconKeranjang />
     }
 
-    const { icon, totalKeranjang, padding, type, onPress, loading } = props;
+    const { icon, totalKeranjang, padding, type, onPress, loading, disable } = props;
 
     //Loading
     if(loading) {
@@ -37,7 +38,18 @@ const Tombol = (props) => {
     }
     if(type === "text3") {
             return <TextOnly3 {...props} />
-    }else if(type === "textIcon") {
+    }
+    if(type === "text4") {
+            return <TextOnly4 {...props} />
+    }
+    if (disable) {
+        return (
+          <View style={styles.disableBg}>
+            <Text style={styles.disableText}>{title}</Text>
+          </View>
+        );
+    }
+    else if(type === "textIcon") {
         return <TextIcon {...props}/>
     }
 
@@ -73,5 +85,15 @@ const styles = StyleSheet.create({
     textNotif: {
         fontSize: 8,
         color: colors.white
-    }
+    },
+    disableBg: {
+        paddingVertical: 10,
+        borderRadius: 10,
+        backgroundColor: '#EDEEF0',
+      },
+      disableText: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: '#B1B7C2',
+      },
 })

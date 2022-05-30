@@ -6,8 +6,6 @@ import {colors, responsiveHeight, responsiveWidth} from '../../../utils';
 import {useRoute} from '@react-navigation/core';
 
 const BannerSlider = ({data}) => {
-
-
   return (
     <View style={styles.container}>
       <SliderBox
@@ -17,7 +15,7 @@ const BannerSlider = ({data}) => {
         sliderBoxHeight={responsiveHeight(150)}
         ImageComponentStyle={styles.slider}
         dotStyle={styles.dotStyle}
-        dotColor={colors.biru}
+        dotColor={colors.primary}
         resizeMode="stretch"
         imageLoadingColor={colors.white2}
       />

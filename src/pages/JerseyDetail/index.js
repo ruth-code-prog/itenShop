@@ -111,7 +111,7 @@ class JerseyDetail extends Component {
             <View style={styles.wrapperJenisBerat}>
               <Text style={styles.jenisBerat}>Jenis : {jersey.jenis}</Text>
             </View>
-            <Text style={styles.jenisBerat}>Rincian Produk : {jersey.desc}</Text>
+            <Text selectable={true} style={styles.jenisBerat}>Rincian Produk : {jersey.desc}</Text>
 
             <View style={styles.wrapperInput}>
               <Inputan
@@ -152,6 +152,7 @@ class JerseyDetail extends Component {
               onPress={() => this.masukKeranjang()}
               loading={saveKeranjangLoading}
             />
+            <Jarak height={10} />
           </View>
           </ScrollView>
         </View>

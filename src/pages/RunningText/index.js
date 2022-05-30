@@ -35,6 +35,7 @@ const RunningText = props => {
                   fontSize: 16,
                   color: '#FFFFFF',
                   fontWeight: 'bold',
+                  fontStyle: 'italic',
                   //width: Dimensions.get("screen").width - 40,
                 }}
                 duration={30000}

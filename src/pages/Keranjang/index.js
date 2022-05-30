@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.biru,
   },
   footer: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 10,
     backgroundColor: colors.biru,
     shadowColor: '#000',
     shadowOffset: {

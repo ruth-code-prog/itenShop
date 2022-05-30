@@ -127,6 +127,17 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
 
 android {
+     packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude("META-INF/*.kotlin_module") 
+      }          
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -135,8 +146,9 @@ android {
         applicationId "com.itenshop"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 19
-        versionName "19.0"
+        versionCode 36
+        versionName "36.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -201,6 +213,7 @@ dependencies {
     implementation 'com.facebook.fresco:fresco:2.0.0'
 
     implementation 'com.facebook.fresco:animated-gif:2.6.0'
+    implementation "com.android.support:multidex:1.0.3"
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

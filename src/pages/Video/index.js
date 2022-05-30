@@ -12,10 +12,12 @@ import {
   ScrollView
 } from "react-native";
 import {
-  VideoPlayer,
+  VideoPlayer, Input
 } from "../../components";
 import FIREBASE from '../../config/FIREBASE';
-import {colors, responsiveHeight, responsiveWidth} from '../../../src/utils';
+import {colors, fonts, responsiveHeight, responsiveWidth} from '../../../src/utils';
+import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
 const Video = () => {
   const [data, setData] = useState([]);
@@ -46,11 +48,34 @@ const Video = () => {
       });
   };
 
+  const handleFilter = val => {
+    setLoading(true);
+    let arr = [...allData];
+    var searchRegex = new RegExp(val, 'i');
+    arr = arr.filter(item => searchRegex?.test(item?.title));
+    setData(arr);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  };
+
   return (
     <View style={styles.pages}>
       <ScrollView showsHorizontalScrollIndicator={false}>
+      <View style={{padding: 4, paddingTop: 8}}>
+        <Text style={styles.label}>Cari Video</Text>
+        <Input
+          onChangeText={val => handleFilter(val)}
+          placeholder="Masukkan Judul Video"
+        />
+         <FontAwesomeIcon
+            color={colors.white}
+            style={{position: 'absolute', top: '70%', right: 30}}
+            icon={faSearch}
+          />
+      </View>
       {loading ? (
-        <ActivityIndicator size={24} color="#0000FF" />
+        <ActivityIndicator size={24} color="#FFFFFF" />
       ) : (
         <FlatList
           horizontal
@@ -152,5 +177,11 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 12,
     color:  "#0000FF",
+  },
+  label: {
+    fontSize: 16,
+    fontFamily: fonts.primary.bold,
+    color: '#FFFFFF',
+    marginLeft: 8,
   },
 });
