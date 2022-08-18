@@ -13,6 +13,7 @@ import {getKotaDetail, postOngkir} from '../../actions/RajaOngkirAction';
 import {couriers} from '../../data';
 import {snapTransactions} from '../../actions/PaymentActions';
 import Qris from '../Qris';
+import FIREBASE from '../../config/FIREBASE';
 
 class Checkout extends Component {
   constructor(props) {
@@ -30,29 +31,16 @@ class Checkout extends Component {
       provinsi: '',
       alamat: '',
       date: new Date().getTime(),
+      additionalFee: {
+        midtrans: 0,
+      },
     };
   }
 
   componentDidMount() {
     this.getUserData();
+    this.getAdditionalFee();
   }
-
-  getUserData = () => {
-    getData('user').then(res => {
-      const data = res;
-
-      if (data) {
-        this.setState({
-          profile: data,
-          alamat: data.alamat,
-        });
-
-        this.props.dispatch(getKotaDetail(data.kota));
-      } else {
-        this.props.navigation.replace('Login');
-      }
-    });
-  };
 
   componentDidUpdate(prevProps) {
     const {getKotaDetailResult, ongkirResult, snapTransactionsResult} =
@@ -90,6 +78,23 @@ class Checkout extends Component {
     }
   }
 
+  getUserData = () => {
+    getData('user').then(res => {
+      const data = res;
+
+      if (data) {
+        this.setState({
+          profile: data,
+          alamat: data.alamat,
+        });
+
+        this.props.dispatch(getKotaDetail(data.kota));
+      } else {
+        this.props.navigation.replace('Login');
+      }
+    });
+  };
+
   ubahEkspedisi = ekspedisiSelected => {
     if (ekspedisiSelected) {
       this.setState({
@@ -100,13 +105,25 @@ class Checkout extends Component {
     }
   };
 
+  getAdditionalFee = () => {
+    FIREBASE.database()
+      .ref('additional_fee')
+      .once('value', snapshot => {
+        const data = snapshot.val();
+        this.setState({
+          additionalFee: data,
+        });
+      });
+  };
+
   Bayar = () => {
-    const {totalHarga, ongkir, profile, date} = this.state;
+    const {totalHarga, ongkir, profile, date, additionalFee} = this.state;
+    const {midtrans} = additionalFee || {};
 
     const data = {
       transaction_details: {
         order_id: 'MID-' + date + '-' + profile.uid,
-        gross_amount: parseInt(totalHarga + ongkir),
+        gross_amount: parseInt(totalHarga + ongkir + midtrans),
       },
       credit_card: {
         secure: true,
@@ -131,41 +148,59 @@ class Checkout extends Component {
       ekspedisiSelected,
       ongkir,
       estimasi,
+      additionalFee,
     } = this.state;
+    const {midtrans} = additionalFee || {};
     const {navigation, snapTransactionsLoading} = this.props;
     return (
       <View style={styles.pages}>
         <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.isi}>
-          <Text style={styles.textBold}>Apakah Benar Alamat ini ?</Text>
-          <CardAlamat
-            alamat={alamat}
-            provinsi={provinsi}
-            kota={kota}
-            navigation={navigation}
-          />
-        </View>
-
-        <View style={styles.footer}>
-          {/* Total Harga  */}
-          <View style={styles.totalHarga}>
-            <Text style={styles.textBold}>Total Harga :</Text>
-            <Text selectable={true} style={styles.textBold}>
-              Rp. {numberWithCommas(totalHarga + ongkir)}
-            </Text>
+          <View style={styles.isi}>
+            <Text style={styles.textBold}>Apakah Benar Alamat ini ?</Text>
+            <CardAlamat
+              alamat={alamat}
+              provinsi={provinsi}
+              kota={kota}
+              navigation={navigation}
+            />
           </View>
-          <Jarak height={4} />
-          <Tombol
-            title="Bayar Via (Midtrans)"
-            type="textIcon"
-            fontSize={18}
-            padding={responsiveHeight(15)}
-            icon="keranjang-putih"
-            onPress={() => this.Bayar()}
-            loading={snapTransactionsLoading}
-          />
-          <Qris />
-        </View>
+          <Jarak height={20} />
+          <View style={styles.footer}>
+            {/* Harga  */}
+            <View style={styles.totalHarga}>
+              <Text style={styles.textBold}>Harga :</Text>
+              <Text selectable={true} style={styles.textBold}>
+                Rp. {numberWithCommas(totalHarga + ongkir)}
+              </Text>
+            </View>
+            <Jarak height={8} />
+            {/* Midtrans  */}
+            <View style={styles.totalHarga}>
+              <Text style={styles.textBold}>+Midtrans fee :</Text>
+              <Text selectable={true} style={styles.textBold}>
+                Rp. {numberWithCommas(midtrans)}
+              </Text>
+            </View>
+            <Jarak height={8} />
+            {/* Total Harga  */}
+            <View style={styles.totalHarga}>
+              <Text style={styles.textBold}>Total Harga :</Text>
+              <Text selectable={true} style={styles.textBold}>
+                Rp. {numberWithCommas(totalHarga + ongkir + midtrans)}
+              </Text>
+            </View>
+            <Jarak height={20} />
+            <Tombol
+              title="Bayar Via (Midtrans)"
+              type="textIcon"
+              fontSize={18}
+              padding={responsiveHeight(15)}
+              icon="keranjang-putih"
+              onPress={() => this.Bayar()}
+              loading={snapTransactionsLoading}
+            />
+            <Qris />
+          </View>
         </ScrollView>
       </View>
     );
@@ -204,7 +239,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: fonts.primary.bold,
     color: '#FFFFFF',
-    textAlign: "center"
+    textAlign: 'center',
   },
   text: {
     fontSize: 18,
@@ -214,7 +249,6 @@ const styles = StyleSheet.create({
   totalHarga: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 20,
     color: '#FFFFFF',
   },
   ongkir: {

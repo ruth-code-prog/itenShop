@@ -1,4 +1,4 @@
-import React, {Component, useCallback, useEffect, useState} from 'react';
+import React, {Component, useCallback, useEffect, useState, memo} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,96 +12,77 @@ import {
   RefreshControl,
 } from 'react-native';
 import FIREBASE from '../../config/FIREBASE';
-import {HeadlineItem, Jarak, ProdukCard} from '../../components';
+import {HeadlineItem, Jarak, ProdukCard, Tombol} from '../../components';
+import {useFocusEffect, useNavigation} from '@react-navigation/core';
+
+const MemoView = memo(View);
+const MemoTouchableOpacity = memo(TouchableOpacity);
+
+const CATEGORY_DATA = [
+  {
+    title: 'Referensi Obat Dewasa',
+    image: require('../../assets/images/adult.png'),
+    page: 'AdultDrug',
+  },
+  {
+    title: 'Referensi Obat Anak',
+    image: require('../../assets/images/pediatric.png'),
+    page: 'PediatricDrug',
+  },
+  {
+    title: 'Referensi Obat Kulit',
+    image: require('../../assets/images/derma.png'),
+    page: 'DermaDrug',
+  },
+  {
+    title: 'Referensi Obat Gigi',
+    image: require('../../assets/images/tooth.png'),
+    page: 'ToothDrug',
+  },
+];
 
 const DrugBerbayar = props => {
-  const [produks, setProduks] = useState([]);
-  const [produksAll, setProduksAll] = useState([]);
-  const [searchProdukLoading, setSearchProdukLoading] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = React.useState(false);
-
-  useEffect(() => {
-    getProduks();
-  }, []);
-
-  const getProduks = () => {
-    FIREBASE.database()
-      .ref('produk')
-      .on('value', res => {
-        setRefreshing(true);
-        const arr = [...res.val()];
-        setProduks(arr.filter(val => val !== null));
-        setProduksAll(arr.filter(val => val !== null));
-      });
-      setRefreshing(true);
-      wait(3000).then(() => setRefreshing(false));
-    setSearchProdukLoading(false);
-  };
-
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
-
-  const handleProduksFilter = val => {
-    setSearchProdukLoading(true);
-    let arr = [...produksAll];
-    var searchRegex = new RegExp(val, 'i');
-    arr = arr.filter(item => searchRegex?.test(item?.title));
-    setProduks(arr);
-    setTimeout(() => {
-      setSearchProdukLoading(false);
-    }, 1500);
-  };
+  const navigation = useNavigation();
 
   return (
     <View style={styles.page}>
-      <ScrollView showsVerticalScrollIndicator={false}
-       refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={getProduks} />
-          }>
-        <View style={styles.colom}>
-          <Text style={styles.row}>CARI OBAT REFERENSI</Text>
-          <View style={styles.imageDok}>
-            <Image
-              source={require('../../assets/images/dokterChat.png')}
-              style={styles.rowCenter}
-            />
-          </View>
-        </View>
-
-        <View style={styles.cariObat}>
-          <TextInput
-            onChangeText={val => handleProduksFilter(val, produks)}
-            selectTextOnFocus
-            style={styles.searchInput}
-            placeholder="MASUKAN KELUHAN/ DIAGNOSA"
-            placeholderTextColor="#27AE60"
-          />
-        </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={{marginTop: 10, paddingHorizontal: 2}}>
-          {searchProdukLoading ? (
-            <ActivityIndicator size="large" color="#FFFFFF"
-             style={{marginTop: 40, marginLeft: 40}}
-            />
-          ) : (
-            produks?.map((item, index) => (
-              <ProdukCard
-                onRemove={() => handleRemoveFavorite(item, produks)}
-                onAdd={() => handleAddFavorite(item, produks)}
-                onPress={() => handleBuy(item)}
-                type="produk"
-                key={index}
-                item={item}
+      <View style={styles.pilihJersey}>
+      <Text
+          style={{
+            color: '#FFFFFF',
+            fontWeight: 'bold',
+            fontSize: 16,
+            textAlign: 'center',
+          }}>
+          (Digital Poly Clinic)
+        </Text>
+        <Text
+          style={{
+            color: '#FFFFFF',
+            fontWeight: 'bold',
+            fontSize: 16,
+            textAlign: 'center',
+          }}>
+          Pilih Kategori
+        </Text>
+        <Jarak height={20} />
+        <MemoView style={styles.categoryContainer}>
+          {CATEGORY_DATA.map((item, index) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(item?.page, item.page === 'AdultDrug');
+              }}
+              style={styles.categoryItem}
+              key={index}>
+              <Image
+                style={styles.imageCategory}
+                source={item?.image || require('../../assets/images/adult.png')}
               />
-            ))
-          )}
-        </ScrollView>
-      </ScrollView>
+              <Text style={styles.titleCategory}>{item?.title}</Text>
+            </TouchableOpacity>
+          ))}
+        </MemoView>
+      </View>
     </View>
   );
 };
@@ -110,7 +91,7 @@ export default DrugBerbayar;
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: '#27AE60',
+    backgroundColor: '#2772E7',
     paddingLeft: 10,
     paddingTop: 12,
   },
@@ -147,5 +128,36 @@ const styles = StyleSheet.create({
   },
   imageDok: {
     alignItems: 'center',
+  },
+  pilihJersey: {
+    marginHorizontal: 16,
+    marginTop: 10,
+  },
+  sectionLabel: {
+    fontSize: 16,
+    marginTop: 30,
+    marginBottom: 16,
+    fontWeight: 'bold',
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  categoryItem: {
+    flexBasis: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 24,
+    paddingHorizontal: 24,
+  },
+  imageCategory: {
+    width: 120,
+    height: 120,
+    borderRadius: 20,
+  },
+  titleCategory: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 8,
   },
 });

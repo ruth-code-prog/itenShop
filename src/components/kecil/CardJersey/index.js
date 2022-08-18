@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: colors.white2,
-    width: responsiveWidth(159),
+    width: responsiveWidth(170),
     height: responsiveHeight(280),
     alignItems: 'center',
     padding: 0,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   gambar: {
-    width: 138,
+    width: 147,
     height: 156,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,

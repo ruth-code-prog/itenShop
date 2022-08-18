@@ -24,7 +24,7 @@ const Ewallet = () => {
     const [userHomeData, setUserHomeData] = useState({});
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState({
-      avatar: ILNullPhoto,
+      photo: ILNullPhoto,
       nama: '',
     });
 

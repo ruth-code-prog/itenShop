@@ -13,7 +13,7 @@ const ListJerseys = ({
   return (
     <View style={styles.container}>
       {getListJerseyResult ? (
-        Object.keys(getListJerseyResult).map((key) => {
+        Object.keys(getListJerseyResult).map(key => {
           return (
             <CardJersey
               key={key}
@@ -35,7 +35,7 @@ const ListJerseys = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   getListJerseyLoading: state.JerseyReducer.getListJerseyLoading,
   getListJerseyResult: state.JerseyReducer.getListJerseyResult,
   getListJerseyError: state.JerseyReducer.getListJerseyError,
@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   dataKosong: {
-    color: "#FFFFFF",
-  }
+    color: '#FFFFFF',
+  },
 });

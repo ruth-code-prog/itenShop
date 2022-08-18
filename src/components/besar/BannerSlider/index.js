@@ -1,14 +1,22 @@
 import React, {Component, useState} from 'react';
-import {Text, StyleSheet, View,} from 'react-native';
+import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 import {Slider1, Slider2} from '../../../assets';
 import {SliderBox} from 'react-native-image-slider-box';
 import {colors, responsiveHeight, responsiveWidth} from '../../../utils';
-import {useRoute} from '@react-navigation/core';
+import {useRoute, useNavigation} from '@react-navigation/core';
 
-const BannerSlider = ({data}) => {
+const BannerSlider = ({data, links}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <SliderBox
+        onCurrentImagePressed={index => {
+          if (links[index]) {
+            navigation.navigate('WebviewPage', {
+              url: links[index],
+            });
+          }
+        }}
         images={data}
         autoplay
         circleLoop
@@ -39,3 +47,4 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
+

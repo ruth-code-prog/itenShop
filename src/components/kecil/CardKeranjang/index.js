@@ -23,7 +23,7 @@ const CardKeranjang = ({keranjang, keranjangUtama, id, dispatch}) => {
       <Image source={{ uri : keranjang.product.gambar[0]}} style={styles.gambar} />
 
       <View style={styles.desc}>
-        <Text style={styles.nama}>{keranjang.product.nama}</Text>
+        <Text style={styles.nama}>{keranjang.product.nama.substring(0, 30)}...</Text>
         <Text style={styles.text}>
           Rp. {numberWithCommas(keranjang.product.harga)}
         </Text>

@@ -48,6 +48,7 @@ export default function AllVideo() {
 
   return (
     <View style={styles.page}>
+      <Jarak height={16}/>
       <ScrollView showsVerticalScrollIndicator={false}>
       <Text style={styles.label}>Video Menarik untuk Anda</Text>
       <Video />

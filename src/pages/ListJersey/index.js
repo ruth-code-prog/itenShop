@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, StatusBar} from 'react-native';
 import {HeaderComponent, ListJerseys, ListLiga} from '../../components';
 import {colors, fonts} from '../../utils';
 import {Jarak} from '../../components';
 import {connect} from 'react-redux';
 import {getListJersey} from '../../actions/JerseyAction';
 import {getListLiga} from '../../actions/LigaAction';
-import Headline from '../Headline';
 
 class ListJersey extends Component {
   componentDidMount() {
@@ -38,15 +37,14 @@ class ListJersey extends Component {
 
     return (
       <View style={styles.page}>
-        <HeaderComponent navigation={navigation} page="ListJersey" />
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={styles.container}>
+            <HeaderComponent navigation={navigation} page="ListJersey" />
           <View style={styles.pilihLiga}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <ListLiga navigation={navigation} />
             </ScrollView>
-            <Headline />
           </View>
 
           <View style={styles.pilihJersey}>
@@ -82,13 +80,13 @@ export default connect(mapStateToProps, null)(ListJersey);
 const styles = StyleSheet.create({
   page: {flex: 1, backgroundColor: colors.biru},
   container: {
-    marginTop: -30,
+    marginTop: -6,
   },
   pilihLiga: {
-    marginHorizontal: 30,
+    marginHorizontal: 14,
   },
   pilihJersey: {
-    marginHorizontal: 30,
+    marginHorizontal: 16,
     marginTop: 10,
     color:"#FFFFFF",
   },

@@ -28,7 +28,7 @@ const NotifSplash = () => {
 
   return (
     <View>
-      <Text style={styles.title}>Version: 36</Text>
+      <Text style={styles.title}>Version: 47</Text>
     </View>
   )
 }

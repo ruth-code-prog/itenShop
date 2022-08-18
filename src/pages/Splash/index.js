@@ -4,6 +4,7 @@ import {Ilustrasi, Logo} from '../../assets';
 import FIREBASE from '../../config/FIREBASE';
 import {getData, storeData} from '../../utils';
 import NotifSplash from '../NotifSplash';
+import {Jarak} from '../../components';
 
 export default class Splash extends Component {
   componentDidMount() {
@@ -24,7 +25,7 @@ export default class Splash extends Component {
       .finally(() => {
         setTimeout(() => {
           this.props.navigation.replace('MainApp');
-        }, 3000);
+        }, 4000);
       });
   };
 
@@ -35,8 +36,13 @@ export default class Splash extends Component {
         <Text style={styles.title}>Easy Way to Make Your Life Better</Text>
         <View style={styles.notifSplash}>
         <NotifSplash />
+        <Jarak height={30} />
         <Image source={require('../../assets/images/Mohes.png')}
-              style={{width: 140, height: 140}}
+              style={{width: 130, height: 130}}
+              resizeMode={'contain'} />
+        <Jarak height={30} />
+        <Image source={require('../../assets/images/pse.png')}
+              style={{width: 130, height: 130}}
               resizeMode={'contain'} />
         </View>
       </View>

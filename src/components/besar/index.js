@@ -18,6 +18,7 @@ import ProdukCard from './ProdukCard';
 import ModalDrug from './ModalDrug';
 import ModalAddPenunjang from './ModalAddPenunjang';
 import ModalPenunjang from './ModalPenunjang';
+import Saldo from './Saldo';
 
 export {
   BottomNavigator,
@@ -39,5 +40,6 @@ export {
   ProdukCard,
   ModalDrug,
   ModalPenunjang,
-  ModalAddPenunjang
+  ModalAddPenunjang, 
+  Saldo,
 };

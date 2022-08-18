@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFocusEffect, useRoute} from '@react-navigation/native';
 import React, {useCallback, useState, useEffect} from 'react';
 import {

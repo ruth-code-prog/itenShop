@@ -54,7 +54,7 @@ export default RunningText
 
 const styles = StyleSheet.create({
   runningText: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 2,
     marginTop: 4,
     flexDirection: 'row',
     alignItems: 'center',

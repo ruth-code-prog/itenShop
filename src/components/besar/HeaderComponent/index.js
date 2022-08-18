@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableWithoutFeedbackBase,
+} from 'react-native';
 import {colors, fonts, getData, responsiveHeight} from '../../../utils';
 import {IconCari} from '../../../assets';
 import {Jarak, Tombol} from '../../kecil';
-import { connect } from 'react-redux';
-import { saveKeywordJersey } from '../../../actions/JerseyAction';
-import { getListKeranjang } from '../../../actions/KeranjangAction';
+import {connect} from 'react-redux';
+import {saveKeywordJersey} from '../../../actions/JerseyAction';
+import {getListKeranjang} from '../../../actions/KeranjangAction';
 
 class HeaderComponent extends Component {
   constructor(props) {
@@ -17,34 +22,33 @@ class HeaderComponent extends Component {
   }
 
   componentDidMount() {
-    getData('user').then((res) => {
+    getData('user').then(res => {
       if (res) {
         this.props.dispatch(getListKeranjang(res.uid));
-      } 
+      }
     });
   }
 
-  selesaiCari = () => {
-    const { page, navigation, dispatch } = this.props;
-    const { search } = this.state;
+  selesaiCari = searchValue => {
+    this.setState({
+      search: searchValue,
+    });
+    const {page, navigation, dispatch} = this.props;
+    // const {search} = this.state;
 
     //jalankan action save keyword
-    dispatch(saveKeywordJersey(search));
+    dispatch(saveKeywordJersey(searchValue));
 
     //jika itu halaman home kita navigate ke listJersey
-    if(page !== "ListJersey") {
-      navigation.navigate("ListJersey");
-    }
+    // if (page !== 'ListJersey') {
+    //   navigation.navigate('ListJersey');
+    // }
 
-
-    //kembalikan state search itu ke string kosong
-    this.setState({
-      search: ''
-    })
-
-
-
-  }
+    // //kembalikan state search itu ke string kosong
+    // this.setState({
+    //   search: '',
+    // });
+  };
 
   render() {
     const {search} = this.state;
@@ -52,7 +56,7 @@ class HeaderComponent extends Component {
 
     let totalKeranjang;
 
-    if(getListKeranjangResult) {
+    if (getListKeranjangResult) {
       totalKeranjang = Object.keys(getListKeranjangResult.pesanans).length;
     }
 
@@ -64,11 +68,13 @@ class HeaderComponent extends Component {
             <IconCari />
             <TextInput
               placeholder="Cari. . ."
-              placeholderTextColor="#000" 
+              placeholderTextColor="#000"
               style={styles.input}
               value={search}
-              onChangeText={(search) => this.setState({search})}
-              onSubmitEditing={() => this.selesaiCari()}
+              onChangeText={search => {
+                this.selesaiCari(search);
+                this.props.onChangeText && this.props.onChangeText(search);
+              }}
             />
           </View>
           <Jarak width={10} />
@@ -84,11 +90,11 @@ class HeaderComponent extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   getListKeranjangResult: state.KeranjangReducer.getListKeranjangResult,
-})
+});
 
-export default connect(mapStateToProps, null)(HeaderComponent)
+export default connect(mapStateToProps, null)(HeaderComponent);
 
 const styles = StyleSheet.create({
   container: {
@@ -99,7 +105,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginHorizontal: 30,
     flexDirection: 'row',
-    color:"#000000",
+    color: '#000000',
   },
   searchSection: {
     flex: 1,
@@ -108,12 +114,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingLeft: 10,
     alignItems: 'center',
-    color:"#000000",
+    color: '#000000',
   },
   input: {
     fontSize: 16,
     fontFamily: fonts.primary.regular,
-    color:"#000000",
-    fontWeight: "bold"
+    color: '#000000',
+    fontWeight: 'bold',
   },
 });

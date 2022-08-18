@@ -1,7 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Home, Splash, AllVideo, DrugBerbayar, Info, ListJersey, Profile, JerseyDetail, Keranjang, Checkout, EditProfile, ChangePassword, History, Login, Register1, Register2, PenunjangUser, Midtrans} from '../pages';
+import {Home, Splash, AllVideo, DrugBerbayar, Info, ListJersey, Profile, JerseyDetail, Keranjang, Checkout, EditProfile, ChangePassword, History, Login, Register1, Register2, PenunjangUser, Midtrans, WebviewPage, AdultDrug, PediatricDrug, DermaDrug, ToothDrug, InfoMenarik} from '../pages';
 import {BottomNavigator} from '../components';
 
 const Stack = createNativeStackNavigator();
@@ -100,6 +100,36 @@ const Router = () => {
       <Stack.Screen
         name="PenunjangUser"
         component={PenunjangUser}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="WebviewPage"
+        component={WebviewPage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AdultDrug"
+        component={AdultDrug}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PediatricDrug"
+        component={PediatricDrug}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DermaDrug"
+        component={DermaDrug}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ToothDrug"
+        component={ToothDrug}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="InfoMenarik"
+        component={InfoMenarik}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

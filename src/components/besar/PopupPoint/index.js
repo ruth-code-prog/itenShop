@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  StatusBar,
 } from 'react-native';
 import FIREBASE from '../../../config/FIREBASE';
 import {colors} from '../../../utils';

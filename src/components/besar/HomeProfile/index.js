@@ -1,27 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {colors, fonts, getData} from '../../../utils';
-import {ILUsernull} from '../../../assets';
+import {ILNullPhoto} from '../../../assets';
 
 const HomeProfile = ({onPress}) => {
   const [profile, setProfile] = useState({
-    avatar: ILUsernull,
+    avatar: ILNullPhoto,
     nama: '',
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getData('user')
-      .then(res => {
-        const data = res;
-        data.avatar = {uri: res.avatar};
-        setProfile(res);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
+    getData("user").then((res) => {
+      const data = res;
+      data.avatar = res?.avatar?.length > 1 ? { uri: res.avatar } : ILNullPhoto;
+      setProfile(res);
+    });
   }, []);
 
   return (

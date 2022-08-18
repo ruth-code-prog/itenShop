@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {
   Component,
   useCallback,
@@ -20,6 +20,7 @@ import {
   FlatList,
   Modal,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 import {
   BannerSlider,
@@ -31,6 +32,7 @@ import {
   ModalDrug,
   ModalPenunjang,
   FloatingIcon,
+  Saldo,
 } from '../../components';
 import Swiper from 'react-native-swiper';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -38,7 +40,7 @@ import {colors, fonts, getData} from '../../utils';
 import {Jarak} from '../../components';
 import {connect, useDispatch, useSelector} from 'react-redux';
 import {getListLiga} from '../../actions/LigaAction';
-import {limitJersey} from '../../actions/JerseyAction';
+import {getListJersey, limitJersey} from '../../actions/JerseyAction';
 import Notif from '../Notif';
 import {useFocusEffect, useNavigation} from '@react-navigation/core';
 import FIREBASE from '../../config/FIREBASE';
@@ -53,6 +55,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import Info from '../Info';
 import ClipboardToast from 'react-native-clipboard-toast';
 import DrugBerbayar from '../DrugBerbayar';
+import Headline from '../Headline';
 
 const Home = props => {
   const [bannerData, setBannerData] = useState([]);
@@ -70,7 +73,10 @@ const Home = props => {
   const [penunjangModal, setPenunjangModal] = useState(false);
   const [floatingIconUrl, setFloatingIcon] = useState('');
   const [showFloating, setShowFloating] = useState(false);
+  const [links, setLinks] = useState([]);
   const pagesScrollRef = useRef(null);
+
+  const searchState = useSelector(state => state?.JerseyReducer);
 
   useFocusEffect(
     useCallback(() => {
@@ -164,6 +170,10 @@ const Home = props => {
   );
 
   useEffect(() => {
+    dispatch(getListJersey(searchState?.idLiga, searchState?.keyword));
+  }, [searchState?.keyword]);
+
+  useEffect(() => {
     checkUser();
   }, []);
 
@@ -175,9 +185,12 @@ const Home = props => {
         wait(2000).then(() => setRefreshing(false));
         const data = snapshot.val();
         let arr = [];
+        let arrLinks = [];
         data.map(val => arr.push(val?.uri));
+        arrLinks = data?.map(val => val?.link);
 
         setBannerData(arr);
+        setLinks(arrLinks);
       });
   };
 
@@ -204,12 +217,30 @@ const Home = props => {
         }>
         <View style={styles.page}>
           <HeaderComponent navigation={navigation} page="Home" />
+          <View style={styles.pilihJersey}>
+            {searchState?.keyword ? (
+              <Text style={styles.labelSearch}>
+                Cari :{' '}
+                <Text style={styles.boldLabel}>{searchState?.keyword}</Text>
+              </Text>
+            ) : (
+              <View />
+            )}
+
+            {searchState?.keyword ? (
+              <ListJerseys navigation={navigation} />
+            ) : (
+              <View />
+            )}
+          </View>
           <BannerSlider
             data={bannerData}
+            links={links}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={getImage} />
             }
           />
+          <Saldo />
           <RunningText />
           <View style={styles.pilihLiga}>
             <Text style={styles.label}>Kategori</Text>
@@ -224,7 +255,8 @@ const Home = props => {
             <Text style={{color: '#FFFFFF', fontStyle: 'italic', fontSize: 12}}>
               ~Chat Admin setelah Top Up E-Wallet Ethan Shop~
             </Text>
-            <Jarak height={4} />
+            <Jarak height={20} />
+            <Headline />
             <View style={{flexDirection: 'row'}}>
               <View style={{marginTop: 10}}>
                 <TouchableOpacity
@@ -279,8 +311,17 @@ const Home = props => {
               padding={14}
             />
 
+            <Jarak height={20} />
+
+            <Tombol
+              onPress={() => Linking.openURL('https://wa.me/+62895600394345')}
+              title="Chat Admin"
+              type="text2"
+              padding={14}
+            />
+
             <Jarak height={8} />
-            <Text style={styles.version}>Ethan Shop Version: 36</Text>
+            <Text style={styles.version}>Ethan Shop Version: 47</Text>
             <Jarak height={20} />
           </View>
           <ModalDrug
@@ -303,13 +344,13 @@ const Home = props => {
             onClose={() => setPointPopup(false)}
           />
         </View>
-        <FloatingIcon
-          onClose={() => setShowFloating(false)}
-          onPress={() => Linking.openURL('https://wa.me/+62895600394345')}
-          visible={showFloating}
-          imageUri={floatingIconUrl}
-        />
       </ScrollView>
+      <FloatingIcon
+        onClose={() => setShowFloating(false)}
+        onPress={() => navigation.navigate('InfoMenarik')}
+        visible={showFloating}
+        imageUri={floatingIconUrl}
+      />
     </>
   );
 };
@@ -333,11 +374,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   pilihLiga: {
-    marginHorizontal: 30,
+    marginHorizontal: 14,
     marginTop: 2,
   },
   pilihJersey: {
-    marginHorizontal: 30,
+    marginHorizontal: 16,
     marginTop: 10,
   },
   imageInfo: {
@@ -377,6 +418,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
     textDecorationLine: 'underline',
+  },
+  labelSearch: {
+    fontSize: 18,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
   label2: {
     fontSize: 12,

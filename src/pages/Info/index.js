@@ -67,7 +67,7 @@ const Info = () => {
 
   return (
     <View style={styles.page}>
-          <Jarak height={10} />
+        <Jarak height={16}/>
         <Text style={styles.title}>
           More Information
         </Text>
